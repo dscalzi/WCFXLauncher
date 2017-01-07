@@ -1,0 +1,338 @@
+/*******************************************************************************
+ *                                                                             *
+ * Fonts                                                                       *
+ *                                                                             *
+ ******************************************************************************/
+
+/* Primary font for the application, found on http://www.dafont.com/ringbearer.font */ 
+@font-face {
+    font-family: ringbearer;
+    src: url('../fonts/ringbearer.ttf');
+}
+
+/* Bitter font, found on https://fonts.google.com/specimen/Bitter */
+@font-face {
+	font-family: bitter;
+	src: url('../fonts/Bitter-Regular.ttf');
+}
+
+/* Logger font, found on https://fonts.google.com/specimen/Inconsolata?selection.family=Inconsolata */
+@font-face {
+	font-family: inconsolata;
+	src: url('../fonts/Inconsolata-Bold.ttf');
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * Root, Shell, Inner Shell                                                    *
+ *                                                                             *
+ ******************************************************************************/
+ /*#ab5e26 */
+ /* Styles for the stage */
+.root {
+	/* Set the background image of the GUI */
+	-fx-background-image: url('../images/BrownWithWignette.jpg');
+	-fx-background-size: cover;
+}
+/* The inner shell contains the entire GUI excluding the window frame adapter */
+#inner_shell {
+	/* Set the border around the bottom, left, and right sides of the inner shell */
+	-fx-border-width: 0 1 1 1;
+	-fx-border-color: #a02d2a;
+}
+
+.context-menu {
+	-fx-color: #a02d2a;
+  	-fx-background-color: #a02d2a;
+  	-fx-text-fill: white;
+}
+
+.menu-item .label {
+  	-fx-text-fill: white;
+}
+
+.menu-item:focused {
+	-fx-background-color: derive(-fx-color,-20%);
+}
+
+.menu-item:focused .label {
+  	-fx-text-fill: white;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * Window Frame                                                                *
+ *                                                                             *
+ ******************************************************************************/
+
+/* This is the container that mimics the standard window frame on applications. */
+#windowFrameAdapter {
+	-fx-background-color: #a02d2a;
+}
+.closebutton,
+.diminishbutton,
+.restorebutton {
+	-fx-color: #a02d2a;
+	-fx-background-color: transparent;
+	-fx-background-radius: 0em;
+	-fx-text-fill: white;
+	-fx-background-insets: 0 0 -1 0;
+}
+.closebutton:focused,
+.diminishbutton:focused,
+.restorebutton:focused {
+    -fx-background-insets: 0 0 -1 0;
+}
+.closebutton:hover,
+.diminishbutton:hover,
+.restorebutton:hover {
+    -fx-background-color: derive(-fx-color,-10%);
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * Header                                                                      *
+ *                                                                             *
+ ******************************************************************************/
+
+/* Absolute container node for the header */
+#header_container {
+	-fx-background-color: black;
+}
+/* Container for the main row of the header */
+#header_main_line {
+	-fx-padding: 5 5 5 5;
+}
+/* Main text node in the header that displays the title  */
+#header_text {
+	/* Set the color of the text */
+	-fx-fill: #f2eada;
+	-fx-font: 60 'ringbearer';
+}
+/* Container node for the trim bar at the bottom of the header */
+#header_trim_pane {
+	-fx-background-color: #a02d2a;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * Launcher Log                                                                *
+ *                                                                             *
+ ******************************************************************************/
+ 
+.launcher_log {
+ 	-fx-background-color: #1a1b1c;
+	-fx-background-radius: 0em;
+	-fx-text-fill: white;
+	-fx-font: 12 'inconsolata';
+	-fx-highlight-fill: #a02d2a;
+}
+.launcher_log .content {
+	-fx-background-color: #1a1b1c;
+	-fx-background-radius: 0em;
+}
+.launcher_log > .scroll-pane{
+	-fx-vbar-policy:always;
+}
+
+
+#log_container {
+	-fx-border-width: 3 0 3 3;
+	-fx-border-color: #a02d2a;
+}
+#log_pane {
+	-fx-padding: 0 5 5 0;
+}
+
+#logpl_container {
+	-fx-background-color: #1a1b1c;
+	-fx-border-width: 3 3 3 3;
+	-fx-border-color: #a02d2a;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * Web Browser                                                                 *
+ *                                                                             *
+ ******************************************************************************/
+
+#browser_container {
+	-fx-border-width: 3 0 3 3;
+	-fx-border-color: #a02d2a;
+}
+#browser_pane {
+	-fx-padding: 0 5 5 0;
+}
+
+/* The main scrollbar **track** CSS class  */
+#webview_main .scroll-bar:horizontal .track ,
+#webview_main .scroll-bar:vertical .track ,
+.launcher_log .scroll-bar:horizontal .track ,
+.launcher_log .scroll-bar:vertical .track {
+	-fx-background-color: #a02d2a;
+	-fx-border-color:transparent;
+	-fx-background-radius: 0em;
+	-fx-border-radius:2em;
+}
+/* The increment and decrement button CSS class of scrollbar */
+#webview_main .scroll-bar:horizontal .increment-button ,
+#webview_main .scroll-bar:horizontal .decrement-button ,
+.launcher_log .scroll-bar:horizontal .increment-button ,
+.launcher_log .scroll-bar:horizontal .decrement-button {
+    -fx-background-color:transparent;
+	-fx-background-radius: 0em;
+	-fx-padding:0 0 10 0;
+}
+/* The increment and decrement button CSS class of scrollbar */
+#webview_main .scroll-bar:vertical .increment-button ,
+#webview_main .scroll-bar:vertical .decrement-button ,
+.launcher_log .scroll-bar:vertical .increment-button ,
+.launcher_log .scroll-bar:vertical .decrement-button {
+    -fx-background-color:transparent;
+	-fx-background-radius: 0em;
+	-fx-padding:0 10 0 0;
+}
+#webview_main  .scroll-bar .increment-arrow,
+#webview_main  .scroll-bar .decrement-arrow,
+.launcher_log  .scroll-bar .increment-arrow,
+.launcher_log  .scroll-bar .decrement-arrow {
+	-fx-shape: " ";	
+	-fx-padding:0;
+}
+/* The main scrollbar **thumb** CSS class which we drag every time (movable) */
+#webview_main .scroll-bar:horizontal .thumb,
+#webview_main .scroll-bar:vertical .thumb,
+.launcher_log .scroll-bar:horizontal .thumb,
+.launcher_log .scroll-bar:vertical .thumb {
+    -fx-background-color:  #333333;
+	-fx-background-insets: 2, 0, 0;
+	-fx-background-radius: 2em;
+}
+.progress-bar .bar {
+	-fx-accent: a02d2a;
+	/* The cool effect
+	-fx-background-color: linear-gradient(
+        from 0px .75em to .75em 0px,
+        repeat,
+        -fx-accent 0%,
+        -fx-accent 49%,
+        derive(-fx-accent, 30%) 50%,
+        derive(-fx-accent, 30%) 99%
+    );
+    */
+    -fx-background-color: #a02d2a;
+    -fx-padding: 1.5px;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0em;
+}
+.progress-bar > .track {
+	-fx-background-radius: 0em;
+	-fx-background-color: transparent;
+}
+.progress-bar {
+	-fx-padding: 0 0 0 0;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * Main Right Toggle Bar                                                             *
+ *                                                                             *
+ ******************************************************************************/
+
+#right_main_toolbar {
+	-fx-background-color: transparent;
+	-fx-padding: 0 0 0 0;
+	-fx-spacing: 0em;
+}
+.tbbtn {
+	-fx-font: 15 'ringbearer';
+	-fx-padding: 0 0 10 0;
+	-fx-background-color: transparent;
+	-fx-background-radius: 0em;
+	-fx-text-fill: black;
+	-fx-cursor: hand;
+}
+.tbbtn:hover,
+.tbbtn:focused {
+	-fx-border-color: black;
+	-fx-border-width: 0 0 5 0;
+	-fx-padding: 0 0 5 0;
+}
+.tbbtn:current {
+	-fx-text-fill: white;
+	-fx-background-color: #a02d2a;
+	-fx-border-width: 0 !important;
+	-fx-padding: 0 0 10 0;
+	-fx-cursor: default;
+}
+.tbbtn:current:hover {
+	-fx-cursor: default;
+}
+.tbbtn:selected:hover {
+	-fx-cursor: default;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * Server Select Toggle Bar                                                    *
+ *                                                                             *
+ ******************************************************************************/
+
+.server_select_btn {
+	-fx-font: 16 'ringbearer';
+	-fx-padding: 5 10 10 10;
+	-fx-background-color: transparent;
+	-fx-background-radius: 0em;
+	-fx-text-fill: black;
+	-fx-cursor: hand;
+}
+.server_select_btn:selected {
+	-fx-border-color: white;
+	-fx-border-width: 2;
+	-fx-padding: 3 8 8 8;
+}
+#server_select_container {
+	-fx-padding: 10 0 0 0;
+	-fx-spacing: 10;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * Left pane                                                                   *
+ *                                                                             *
+ ******************************************************************************/
+
+#welcome_container {
+	-fx-padding: 10 5 0 5;
+}
+#welcome_text {
+	-fx-font: 16 'ringbearer';
+	-fx-padding: 50;
+}
+#login_area {
+	-fx-spacing: 15;
+	-fx-padding: 10 0 0 0;
+}
+#login_button,
+#settings_button,
+#update_button,
+#launch_button,
+#logpl_button {
+	-fx-text-fill: white;
+	-fx-background-color: #a02d2a;
+	-fx-background-radius: 0em;
+}
+#button_dock {
+	-fx-padding: 10 0 0 0;
+	-fx-spacing: 10
+}
+#launch_button_container {
+	-fx-padding: 30 5 5 5;
+}
+#login_container {
+	-fx-padding: 10 0 0 0;
+}
+#avatar_container {
+	-fx-border-color: black;
+	-fx-border-width: 3;
+}

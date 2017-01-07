@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.westeroscraft.nodes.CloseButton?>
+<?import com.westeroscraft.nodes.DiminishButton?>
+<?import com.westeroscraft.nodes.RestoreButton?>
+<?import com.westeroscraft.nodes.WCEngine?>
+<?import com.westeroscraft.nodes.WCToggleButton?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.web.WebView?>
+<?import com.westeroscraft.nodes.WCToggleButton?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.westeroscraft.LauncherController" id="shell">
+	<!-- Custom Window Frame Adapter since we are using an undecorated stage -->
+	<HBox fx:id="windowFrameAdapter" prefWidth="900" minHeight="25" alignment="top_right">
+		<DiminishButton id="diminishbtn" width="40" height="25"></DiminishButton>
+		<RestoreButton width="40" height="25"></RestoreButton>
+		<CloseButton width="40" height="25"></CloseButton>
+	</HBox>
+	<!-- Entire scene excluding the window frame adapter -->
+	<VBox id="inner_shell" VBox.vgrow="ALWAYS">
+		<!-- Launcher Header -->
+		<VBox id="header_container" minHeight="90" alignment="center">
+			<StackPane id="header_main_line" alignment="center">
+				<!-- Image seal -->
+				<Pane id="seal_pane">
+					<ImageView fx:id="seal_imageview" preserveRatio="true" fitHeight="75">
+						<Image url="file:/Users/Asus/Desktop/Eclipse_Assets/workspace/WesterosCraft_Launcher/src/com/westeroscraft/resources/images/WesterosCraft.png"/>
+					</ImageView>
+				</Pane>
+				<!-- The main header text -->
+				<HBox id="header_text_container" alignment="center">
+					<Text id="header_text" text="WesterosCraft"/>
+				</HBox>	
+			</StackPane>
+			<!-- Red border between the launcher's header and body -->
+			<StackPane id="header_trim_pane">
+				<Rectangle width="900" height="5" fill="#a02d2a"/>	
+			</StackPane>
+		</VBox>
+		<!-- Launcher Body -->
+		<StackPane id="body_container" VBox.vgrow="ALWAYS">
+			<HBox id="content_container" alignment="top_right" VBox.vgrow="ALWAYS">
+				<!-- Left portion of the launcher -->
+				<VBox id="left_container" minWidth="275" alignment="top_center" HBox.hgrow="SOMETIMES">
+					<StackPane id="welcome_container">
+						<Text id="welcome_text" text="Welcome to WesterosCraft!"/>
+					</StackPane>
+					<!-- Login area -->
+					<HBox id="login_area" alignment="center">
+						<VBox id="left_login_container" alignment="top_center">
+							<StackPane id="avatar_container">
+								<ImageView id="avatar_imageview" preserveRatio="true" fitHeight="85">
+									<Image url="https://minotar.net/avatar/TheAventine.png"/>
+								</ImageView>
+							</StackPane>
+						</VBox>
+						<VBox id="right_login_container">
+							<Text id="username_text" text="Username"/>
+							<TextField id="username_textfield"/>
+							<Text id="password_text" text="Password"/>
+							<PasswordField id="password_textfield"/>
+							<StackPane id="login_container" alignment="center_right">
+								<Button id="login_button" text="Login"/>			
+							</StackPane>
+						</VBox>		
+					</HBox>
+					<!-- Server selection area -->
+					<VBox id="server_select_container" alignment="center">
+						<fx:define>
+							<ToggleGroup fx:id="server_toggle_group"/>
+						</fx:define>
+						<ToggleButton id="main_server_button" selected="true" styleClass="server_select_btn" text="main server 99/100" toggleGroup="$server_toggle_group"/>
+						<ToggleButton id="test_server_button" styleClass="server_select_btn" text="test server 3/100" toggleGroup="$server_toggle_group"/>	
+					</VBox>
+					<!-- Settings and update button -->
+					<HBox id="button_dock" alignment="center">
+						<Button id="settings_button" text="Settings"/>
+						<Button id="update_button" text="Update"/>
+					</HBox>
+					<!-- Launch button -->
+					<StackPane id="launch_button_container">
+						<Button id="launch_button" text="LAUNCH"/>
+					</StackPane>
+				</VBox>
+				<!-- Right portion of the launcher -->
+				<VBox id="right_container" alignment="top_left" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+					<fx:define>
+						<ToggleGroup fx:id="main_toggle_group"/>
+					</fx:define>
+					<!-- Toolbar above the main content area (browser, log, etc) -->
+					<ToolBar id="right_main_toolbar">
+						<WCToggleButton fx:id="tbbtn_news" text="news" onAction="#handleNewsAction" styleClass="tbbtn" prefWidth="90" prefHeight="35" toggleGroup="$main_toggle_group"/>
+						<WCToggleButton fx:id="tbbtn_map"  text="map" onAction="#handleMapAction" styleClass="tbbtn" prefWidth="90" prefHeight="35" toggleGroup="$main_toggle_group"/>
+						<WCToggleButton fx:id="tbbtn_mods"  text="mods" onAction="#handleModsAction" styleClass="tbbtn" prefWidth="90" prefHeight="35" toggleGroup="$main_toggle_group"/>
+						<WCToggleButton fx:id="tbbtn_faq"  text="faq" onAction="#handleFaqAction" styleClass="tbbtn" prefWidth="90" prefHeight="35" toggleGroup="$main_toggle_group"/>
+						<WCToggleButton fx:id="tbbtn_log"  text="log" styleClass="tbbtn" prefWidth="90" prefHeight="35" toggleGroup="$main_toggle_group"/>
+						<WCToggleButton fx:id="tbbtn_refresh"  text="refresh" onAction="#handleRefreshAction" styleClass="tbbtn" prefWidth="90" prefHeight="35" toggleGroup="$main_toggle_group"/>
+					</ToolBar>
+					<!-- Progress bar indicating browser progress -->
+					<StackPane id="progress_bar_pane" alignment="center_right">
+						<ProgressBar fx:id="progressbar_main" prefWidth="${progressbar_main.parent.width}"/>
+					</StackPane>
+					<!-- Web browser, sometimes hidden -->
+					<StackPane fx:id="browser_pane" visible="${!(tbbtn_log.selected)}" managed="${!(tbbtn_log.selected)}">
+						<StackPane fx:id="browser_container">
+							<WebView fx:id="webview_main"></WebView>
+							<fx:define>
+								<WCEngine fx:id="engine" webView="$webview_main" progressBar="$progressbar_main" pane="$browser_pane"/>
+							</fx:define>
+						</StackPane>
+					</StackPane>
+					<!-- Launcher log (read-only console), sometimes hidden -->
+					<StackPane id="log_pane" VBox.vgrow="ALWAYS" visible="${tbbtn_log.selected}" managed="${tbbtn_log.selected}">
+						<StackPane fx:id="log_container">
+							<TextArea fx:id="launcher_log" text="" contextMenu="$log_contextmenu" styleClass="launcher_log"  wrapText="true" editable="false">
+								<ContextMenu fx:id="log_contextmenu">
+									<items>
+										<MenuItem fx:id="log_menuitem_copy" text="Copy" onAction="#handleCopyAction" mnemonicParsing="false"/>
+										<MenuItem id="log_menuitem_selectall" text="Select All" onAction="#handleSelectAllAction" mnemonicParsing="false"/>
+										<SeparatorMenuItem mnemonicParsing="false" />
+										<MenuItem fx:id="log_menuitem_newwindow" text="Open in New Window" onAction="#handleNewWindowAction" mnemonicParsing="false"/>
+										<MenuItem id="log_menuitem_docklog" text="Dock to Launcher" onAction="#handleDockLogAction" visible="${!(log_menuitem_newwindow.visible)}" mnemonicParsing="false"/>
+									</items>
+								</ContextMenu>
+							</TextArea>
+						</StackPane>
+						<!-- Log placeholder, for when the log opened in a new window -->
+						<StackPane fx:id="logpl_container" visible="false" managed="false" alignment="center">
+							<Button id="logpl_button" text="Dock Log to Launcher" onAction="#handleDockLogAction"/>
+						</StackPane>
+					</StackPane>
+				</VBox>
+			</HBox>
+		</StackPane>
+	</VBox>
+</VBox>
