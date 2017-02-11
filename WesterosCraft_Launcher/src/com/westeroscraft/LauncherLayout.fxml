@@ -2,6 +2,7 @@
 
 <?import com.westeroscraft.nodes.CloseButton?>
 <?import com.westeroscraft.nodes.DiminishButton?>
+<?import com.westeroscraft.nodes.ProgressArea?>
 <?import com.westeroscraft.nodes.RestoreButton?>
 <?import com.westeroscraft.nodes.WCEngine?>
 <?import com.westeroscraft.nodes.WCToggleButton?>
@@ -11,6 +12,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
@@ -120,13 +122,22 @@
 						<ProgressBar fx:id="progressbar_main" prefWidth="${progressbar_main.parent.width}"/>
 					</StackPane>
 					<!-- Web browser, sometimes hidden -->
-					<StackPane fx:id="browser_pane" visible="${!(tbbtn_log.selected)}" managed="${!(tbbtn_log.selected)}">
+					<StackPane fx:id="browser_pane" visible="${tbbtn_news.selected || tbbtn_map.selected || tbbtn_faq.selected}" managed="${tbbtn_news.selected || tbbtn_map.selected || tbbtn_faq.selected}">
 						<StackPane fx:id="browser_container">
 							<WebView fx:id="webview_main"></WebView>
 							<fx:define>
 								<WCEngine fx:id="engine" webView="$webview_main" progressBar="$progressbar_main" pane="$browser_pane"/>
 							</fx:define>
 						</StackPane>
+					</StackPane>
+					<StackPane fx:id="mods_pane" VBox.vgrow="ALWAYS" visible="${tbbtn_mods.selected}" managed="${tbbtn_mods.selected}">
+						<ScrollPane fx:id="mods_container" VBox.vgrow="ALWAYS">
+							<ProgressArea text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor">
+								<image>
+									<Image url="file:/Users/Asus/Desktop/Eclipse_Assets/workspace/WesterosCraft_Launcher/src/com/westeroscraft/resources/images/WesterosCraft.png"/>
+								</image>
+							</ProgressArea>
+						</ScrollPane>
 					</StackPane>
 					<!-- Launcher log (read-only console), sometimes hidden -->
 					<StackPane id="log_pane" VBox.vgrow="ALWAYS" visible="${tbbtn_log.selected}" managed="${tbbtn_log.selected}">

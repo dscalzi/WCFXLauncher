@@ -1,10 +1,8 @@
 package com.westeroscraft.nodes;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
+import java.io.InputStream;
 import javafx.application.Platform;
 import javafx.beans.NamedArg;
 import javafx.beans.binding.Bindings;
@@ -28,6 +26,8 @@ public class WCEngine {
 	private final WebView view;
 	private final ProgressBar progressBar;
 	private final Pane container;
+	
+	private String javascript;
 	
 	/**
 	 * Create a new WCEngine.
@@ -94,9 +94,14 @@ public class WCEngine {
 	 */
 	private void setupJavaScript(){
 		engine.setJavaScriptEnabled(true);
+		try(InputStream is = getClass().getClassLoader().getResourceAsStream("com/westeroscraft/resources/scripts/web.js")){
+			javascript = loadLocalScript(is);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		engine.getLoadWorker().stateProperty().addListener((ov, oldState, newState) -> {
 			if (newState == State.SUCCEEDED) {
-				engine.executeScript(loadLocalScript(getClass().getResource("../resources/scripts/web.js").getPath()));
+				engine.executeScript(javascript);
 			}
 		});
 	}
@@ -107,15 +112,16 @@ public class WCEngine {
 	 * @param path The path to the script file.
 	 * @return A string representation of the JavaScript file.
 	 */
-	private String loadLocalScript(String path){
-		byte[] encoded;
-		try {
-			encoded = Files.readAllBytes(Paths.get(path.replaceFirst("^/(.:/)", "$1")));
-		} catch (IOException e) {
+	private String loadLocalScript(InputStream inputStream){
+		try(ByteArrayOutputStream result = new ByteArrayOutputStream()){
+			byte[] buffer = new byte[1024];
+			int length;
+			while((length = inputStream.read(buffer)) != -1) result.write(buffer, 0, length);
+			return result.toString("UTF-8");
+		} catch(IOException e){
 			e.printStackTrace();
-			return "";
+			return null;
 		}
-		return new String(encoded, StandardCharsets.UTF_8);
 	}
 	
 }

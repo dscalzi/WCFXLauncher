@@ -1,11 +1,10 @@
 package com.westeroscraft;
 
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.lang.reflect.Method;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Level;
-import java.util.logging.Logger;
-
 //import com.sun.javafx.application.LauncherImpl;
 import com.westeroscraft.lib.borderless.BorderlessScene;
 import com.westeroscraft.logging.LoggerUtil;
@@ -28,11 +27,10 @@ public class LauncherExecutor extends Application{
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		FXMLLoader loader = new FXMLLoader();
-		File f = new File(getClass().getResource("LauncherLayout.fxml").getPath());
 		
 		VBox root;
 		
-		try(FileInputStream fxmlStream = new FileInputStream(f)){
+		try(InputStream fxmlStream = getClass().getResourceAsStream("LauncherLayout.fxml")){
 			root = (VBox) loader.load(fxmlStream);
 		}
 		
@@ -83,6 +81,10 @@ public class LauncherExecutor extends Application{
 			System.err.println("Error getting Window Pointer");
 		}
 		return retval;
+	}
+	
+	public static Path getDataPath(){
+		return Paths.get(System.getProperty("user.home"), "AppData", "Roaming", ".westeroscraft");
 	}
 	
 }

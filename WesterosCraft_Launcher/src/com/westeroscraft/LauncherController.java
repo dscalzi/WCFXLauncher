@@ -1,5 +1,6 @@
 package com.westeroscraft;
 
+import java.io.File;
 import java.io.PrintStream;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -50,8 +51,12 @@ public class LauncherController implements Initializable{
 	}
 	
 	private void setupBrowser(){
+		engine.getEngine().setUserDataDirectory(new File(LauncherExecutor.getDataPath() + "/local/webview"));
 		WCToggleButton.setFocus(tbbtn_news);
 		webview_main.setZoom(.53);
+		webview_main.setOnContextMenuRequested(e -> {
+			
+		});
 	}
 	
 	@FXML
@@ -66,8 +71,8 @@ public class LauncherController implements Initializable{
 	}
 	@FXML
 	private void handleModsAction(ActionEvent e){
-		if(!((WCToggleButton)e.getSource()).isCurrent())
-			System.out.println("Coming soon!");
+		if(!((WCToggleButton)e.getSource()).isCurrent()){
+		}
 	}
 	@FXML
 	private void handleFaqAction(ActionEvent e){

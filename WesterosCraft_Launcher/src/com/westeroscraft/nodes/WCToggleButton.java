@@ -7,7 +7,6 @@ import javafx.beans.NamedArg;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.BooleanPropertyBase;
 import javafx.css.PseudoClass;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
@@ -93,6 +92,7 @@ public class WCToggleButton extends ToggleButton implements EventHandler<Event>{
 		
 		if(WCToggleButton.focused.get(g) != null){
 			WCToggleButton.focused.get(g).setState(WCToggleButtonState.IDLE);
+			//WCToggleButton.focused.get(g).setDisabled(false);
 			WCToggleButton.focused.get(g).currentProperty().set(false);
 		}
 		
@@ -100,6 +100,7 @@ public class WCToggleButton extends ToggleButton implements EventHandler<Event>{
 		WCToggleButton.focused.replace(g, target);
 		target.setState(WCToggleButtonState.FOCUSED);
 		target.currentProperty().set(true);
+		//target.setDisabled(true);
 		
 		return true;
 	}
@@ -146,25 +147,17 @@ public class WCToggleButton extends ToggleButton implements EventHandler<Event>{
 	@Override
 	public void handle(Event event) {
 		EventType<? extends Event> t = event.getEventType();
-		if(t == ActionEvent.ACTION)
-			this.handleActionEvent((ActionEvent)event);
-		else if(t == MouseEvent.MOUSE_ENTERED)
+		if(t == MouseEvent.MOUSE_ENTERED)
 			this.handleMouseEnteredEvent((MouseEvent)event);
 		
 	}
 	
-	/**
-	 * General Handler
-	 * 
-	 * If the button is focused, consume the event. If not,
-	 * set focus to the button.
-	 */
-	private void handleActionEvent(ActionEvent event){
-		if(this.state == WCToggleButtonState.FOCUSED){
-			event.consume();
-			return;
+	@Override
+	public void fire(){
+		if(this.state != WCToggleButtonState.FOCUSED){
+			super.fire();
+			WCToggleButton.setFocus(this);
 		}
-		WCToggleButton.setFocus(this);
 	}
 	
 	/** 
