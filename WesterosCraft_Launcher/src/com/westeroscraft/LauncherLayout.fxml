@@ -126,7 +126,7 @@
 						<StackPane fx:id="browser_container">
 							<WebView fx:id="webview_main"></WebView>
 							<fx:define>
-								<WCEngine fx:id="engine" webView="$webview_main" progressBar="$progressbar_main" pane="$browser_pane"/>
+								<WCEngine fx:id="engine" webView="$webview_main" progressBar="$progressbar_main" container="$browser_container"/>
 							</fx:define>
 						</StackPane>
 					</StackPane>

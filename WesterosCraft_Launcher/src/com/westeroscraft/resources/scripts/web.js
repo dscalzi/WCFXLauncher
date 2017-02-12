@@ -54,4 +54,10 @@ $(document).ready(function() {
 			window.scrollTo(0,pageScrolls.get(urlSplit[1]));
 		}
 	}
+	
+	//Force vertical scrollbar to be always visible.
+	if(document.body.scrollHeight < document.body.clientHeight){
+		$('html').css('overflow-y', 'scroll')
+	}
+	
 });

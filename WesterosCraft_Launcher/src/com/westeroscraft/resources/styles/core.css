@@ -248,7 +248,7 @@
 #webview_main .scroll-bar:vertical .thumb,
 .launcher_log .scroll-bar:horizontal .thumb,
 .launcher_log .scroll-bar:vertical .thumb {
-    -fx-background-color:  #333333;
+    -fx-background-color: #333333;
 	-fx-background-insets: 2, 0, 0;
 	-fx-background-radius: 2em;
 }

@@ -18,6 +18,7 @@ import org.w3c.dom.events.EventTarget;
 import com.sun.javafx.scene.control.skin.ContextMenuContent;
 import com.sun.javafx.scene.control.skin.ContextMenuContent.MenuItemContainer;
 import com.sun.javafx.util.WeakReferenceQueue;
+import com.westeroscraft.logging.LoggerUtil;
 
 import javafx.application.Platform;
 import javafx.beans.NamedArg;
@@ -31,7 +32,7 @@ import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -55,7 +56,7 @@ public class WCEngine {
 	private final WebEngine engine;
 	private final WebView view;
 	private final ProgressBar progressBar;
-	private final Pane container;
+	private final StackPane container;
 	
 	private String javascript;
 	private URI hrefCache;
@@ -67,7 +68,7 @@ public class WCEngine {
 	 * @param progressBar The ProgressBar for this engine.
 	 * @param container Container that holds the WebView, used for visibility property binding.
 	 */
-	public WCEngine(@NamedArg("webView")WebView view, @NamedArg("progressBar")ProgressBar progressBar, @NamedArg("pane")Pane container){
+	public WCEngine(@NamedArg("webView")WebView view, @NamedArg("progressBar")ProgressBar progressBar, @NamedArg("container")StackPane container){
 		this.engine = view.getEngine();
 		this.view = view;
 		this.progressBar = progressBar;
@@ -112,12 +113,22 @@ public class WCEngine {
 		progressBar.progressProperty().bind(engine.getLoadWorker().progressProperty());
 		engine.getLoadWorker().stateProperty().addListener((ov, oldState, newState) -> {
 			if (newState == State.RUNNING)
-				view.getScene().lookup("#browser_container").setStyle("-fx-border-width: 0 0 3 3;");
-			if (newState == State.SUCCEEDED) {
-				view.getScene().lookup("#browser_container").setStyle("-fx-border-width: 3 0 3 3;");
+				container.setStyle("-fx-border-width: 0 0 3 3;");
+			if (newState == State.SUCCEEDED)		
+				container.setStyle("-fx-border-width: 3 0 3 3;");
+	    });
+	}
+	
+	/*
+	 * Use our custom content menu instead.
+	 */
+	private void bindContextMenu(){
+		//Listener for right clicks on links.
+		engine.getLoadWorker().stateProperty().addListener((ov, oldState, newState) -> {
+			if(newState == State.SUCCEEDED){
 				EventListener listener = ev -> {
 					String domEventType = ev.getType();
-					if (domEventType.equals("contextmenu")) {
+					if(domEventType.equals("contextmenu")) {
 						Element el = (Element)ev.getTarget();
 						if(!el.getNodeName().equalsIgnoreCase("a"))
 							if(el.getParentNode().getNodeType() == org.w3c.dom.Node.ELEMENT_NODE)
@@ -127,26 +138,21 @@ public class WCEngine {
 						try {
 							domain = loc.toURL().getProtocol() + "://" + loc.getHost();
 						} catch (MalformedURLException e) {
+							//Shouldn't happen..
+							LoggerUtil.getLogger("Launcher").severe("Current url is malformed, unable to proccess it.");
 							e.printStackTrace();
 						}
 						String uri = el.getAttribute("href");
 						hrefCache = URI.create((uri.startsWith("/") ? domain : (uri.startsWith("#") ? loc.toString() : "")) +  uri);
 					} 
-                };
-
-                Document doc = view.getEngine().getDocument();
-                NodeList nodeList = doc.getElementsByTagName("a");
-                for (int i = 0; i < nodeList.getLength(); i++) {
-                    ((EventTarget) nodeList.item(i)).addEventListener("contextmenu", listener, false);
-                }
-			}
-	    });
-	}
+	            };
 	
-	/*
-	 * Use our custom content menu instead.
-	 */
-	private void bindContextMenu(){
+	            Document doc = view.getEngine().getDocument();
+	            NodeList nodeList = doc.getElementsByTagName("a");
+	            for (int i = 0; i < nodeList.getLength(); i++)
+	                ((EventTarget) nodeList.item(i)).addEventListener("contextmenu", listener, false);
+			}
+		});
 		view.setOnContextMenuRequested(cme -> {
 			try {
 				getPopupWindow();
@@ -158,21 +164,22 @@ public class WCEngine {
 	
 	/**
 	 * Load our custom JavaScript file once the page has finished loading. This allows
-	 * us to modify the stles of loaded pages to have them fit nicer onto the smaller
+	 * us to modify the styles of loaded pages to have them fit nicer onto the smaller
 	 * display space provided by the launcher.
 	 */
 	private void setupJavaScript(){
 		engine.setJavaScriptEnabled(true);
 		try(InputStream is = getClass().getClassLoader().getResourceAsStream("com/westeroscraft/resources/scripts/web.js")){
 			javascript = loadLocalScript(is);
+			engine.getLoadWorker().stateProperty().addListener((ov, oldState, newState) -> {
+				if (newState == State.SUCCEEDED) {
+					engine.executeScript(javascript);
+				}
+			});
 		} catch (IOException e) {
+			LoggerUtil.getLogger("Launcher").severe("Unable to locate javascript resource for web engine.");
 			e.printStackTrace();
 		}
-		engine.getLoadWorker().stateProperty().addListener((ov, oldState, newState) -> {
-			if (newState == State.SUCCEEDED) {
-				engine.executeScript(javascript);
-			}
-		});
 	}
 	
 	/**
@@ -188,6 +195,7 @@ public class WCEngine {
 			while((length = inputStream.read(buffer)) != -1) result.write(buffer, 0, length);
 			return result.toString("UTF-8");
 		} catch(IOException e){
+			LoggerUtil.getLogger("Launcher").severe("Unable to load javascript file from InputStream.");
 			e.printStackTrace();
 			return null;
 		}
@@ -212,6 +220,8 @@ public class WCEngine {
 			
 			windows = (Iterator<Window>)((com.sun.javafx.util.WeakReferenceQueue<Window>)f.get(wQ)).iterator();
 		} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e1) {
+			LoggerUtil.getLogger("Launcher").severe("Unable to access field windowQueue as of java version " + 
+				System.getProperty("java.version") + ". Report this to the developers:");
 			e1.printStackTrace();
 			return null;
 		}
@@ -233,19 +243,24 @@ public class WCEngine {
 	                        VBox itemsContainer = cmc.getItemsContainer();
 	                        
 	                        for(int i=0; i<itemsContainer.getChildren().size(); ++i){
-	                        	MenuItemContainer item = (MenuItemContainer) itemsContainer.getChildren().get(i);
-	                            if(item.getItem().getText().equals("Open Link in New Window")){
-	                            	itemsContainer.getChildren().remove(i);
-	                            	MenuItem newBrowser = new MenuItem("Open Link in Default Browser");
-	                            	newBrowser.setOnAction(e -> {
-	                            		try {
-											Desktop.getDesktop().browse(hrefCache);
-										} catch (IOException e1) {
-											e1.printStackTrace();
-										}
-	                            	});
-	                            	itemsContainer.getChildren().add(i, cmc.new MenuItemContainer(newBrowser));
-	                            }
+	                        	if(itemsContainer.getChildren().get(i) instanceof MenuItemContainer){
+		                        	MenuItemContainer item = (MenuItemContainer) itemsContainer.getChildren().get(i);
+		                            if(item.getItem().getText().equals("Open Link in New Window")){
+		                            	itemsContainer.getChildren().remove(i);
+		                            	MenuItem newBrowser = new MenuItem("Open Link in Default Browser");
+		                            	newBrowser.setOnAction(e -> {
+		                            		try {
+												Desktop.getDesktop().browse(hrefCache);
+											} catch (IOException e1) {
+												LoggerUtil.getLogger("Launcher").severe("Unable to open " + hrefCache.toString() +
+														" in default browser.");
+												
+												e1.printStackTrace();
+											}
+		                            	});
+		                            	itemsContainer.getChildren().add(i, cmc.new MenuItemContainer(newBrowser));
+		                            }
+	                        	}
 	                        }
 	                        
 	                        // adding new item:
@@ -254,6 +269,8 @@ public class WCEngine {
 	                        	try {
 									Desktop.getDesktop().browse(URI.create(engine.getLocation()));
 								} catch (IOException e1) {
+									LoggerUtil.getLogger("Launcher").severe("Unable to open " + engine.getLocation() +
+											" in default browser.");
 									e1.printStackTrace();
 								}
 	                        });
