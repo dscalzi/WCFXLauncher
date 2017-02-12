@@ -54,35 +54,27 @@ public class LauncherController implements Initializable{
 		engine.getEngine().setUserDataDirectory(new File(LauncherExecutor.getDataPath() + "/local/webview"));
 		WCToggleButton.setFocus(tbbtn_news);
 		webview_main.setZoom(.53);
-		webview_main.setOnContextMenuRequested(e -> {
-			
-		});
 	}
 	
 	@FXML
 	private void handleNewsAction(ActionEvent e){
-		if(!((WCToggleButton)e.getSource()).isCurrent())
-			engine.loadPage("http://westeroscraft.com/servernews");
+		engine.loadPage("http://westeroscraft.com/servernews");
 	}
 	@FXML
 	private void handleMapAction(ActionEvent e){
-		if(!((WCToggleButton)e.getSource()).isCurrent())
-			engine.loadPage("http://westeroscraft.com/map");
+		engine.loadPage("http://mc.westeroscraft.com/");
 	}
 	@FXML
 	private void handleModsAction(ActionEvent e){
-		if(!((WCToggleButton)e.getSource()).isCurrent()){
-		}
+		
 	}
 	@FXML
 	private void handleFaqAction(ActionEvent e){
-		if(!((WCToggleButton)e.getSource()).isCurrent())
-			engine.loadPage("http://westeroscraft.com/guide");
+		engine.loadPage("http://westeroscraft.com/guide");
 	}
 	@FXML
 	private void handleRefreshAction(ActionEvent e){
-		if(!((WCToggleButton)e.getSource()).isCurrent())
-			System.out.println("Coming soon!");
+		System.out.println("Coming soon!");
 	}
 	
 	@FXML
