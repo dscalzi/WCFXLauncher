@@ -92,7 +92,6 @@ public class WCToggleButton extends ToggleButton implements EventHandler<Event>{
 		
 		if(WCToggleButton.focused.get(g) != null){
 			WCToggleButton.focused.get(g).setState(WCToggleButtonState.IDLE);
-			//WCToggleButton.focused.get(g).setDisabled(false);
 			WCToggleButton.focused.get(g).currentProperty().set(false);
 		}
 		
@@ -103,6 +102,20 @@ public class WCToggleButton extends ToggleButton implements EventHandler<Event>{
 		//target.setDisabled(true);
 		
 		return true;
+	}
+	
+	public static boolean removeFocus(ToggleGroup group){
+		WCToggleButton t = WCToggleButton.focused.get(group);
+		if(t != null){
+			t.setState(WCToggleButtonState.IDLE);
+			t.currentProperty().set(false);
+			t.setSelected(false);
+		}
+		return true;
+	}
+	
+	public static WCToggleButton getFocusedButton(ToggleGroup group){
+		return WCToggleButton.focused.get(group);
 	}
 	
 	/**

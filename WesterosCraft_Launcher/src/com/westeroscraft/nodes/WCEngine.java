@@ -32,7 +32,7 @@ import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -56,7 +56,7 @@ public class WCEngine {
 	private final WebEngine engine;
 	private final WebView view;
 	private final ProgressBar progressBar;
-	private final StackPane container;
+	private final Pane container;
 	
 	private String javascript;
 	private URI hrefCache;
@@ -68,7 +68,7 @@ public class WCEngine {
 	 * @param progressBar The ProgressBar for this engine.
 	 * @param container Container that holds the WebView, used for visibility property binding.
 	 */
-	public WCEngine(@NamedArg("webView")WebView view, @NamedArg("progressBar")ProgressBar progressBar, @NamedArg("container")StackPane container){
+	public WCEngine(@NamedArg("webView")WebView view, @NamedArg("progressBar")ProgressBar progressBar, @NamedArg("pane")Pane container){
 		this.engine = view.getEngine();
 		this.view = view;
 		this.progressBar = progressBar;
@@ -113,9 +113,9 @@ public class WCEngine {
 		progressBar.progressProperty().bind(engine.getLoadWorker().progressProperty());
 		engine.getLoadWorker().stateProperty().addListener((ov, oldState, newState) -> {
 			if (newState == State.RUNNING)
-				container.setStyle("-fx-border-width: 0 0 3 3;");
+				view.getScene().lookup("#browser_container").setStyle("-fx-border-width: 0 0 3 3;");
 			if (newState == State.SUCCEEDED)		
-				container.setStyle("-fx-border-width: 3 0 3 3;");
+				view.getScene().lookup("#browser_container").setStyle("-fx-border-width: 3 0 3 3;");
 	    });
 	}
 	

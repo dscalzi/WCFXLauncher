@@ -4,6 +4,7 @@
 <?import com.westeroscraft.nodes.DiminishButton?>
 <?import com.westeroscraft.nodes.ProgressArea?>
 <?import com.westeroscraft.nodes.RestoreButton?>
+<?import com.westeroscraft.nodes.ToggleSwitch?>
 <?import com.westeroscraft.nodes.WCEngine?>
 <?import com.westeroscraft.nodes.WCToggleButton?>
 
@@ -21,8 +22,10 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
@@ -95,7 +98,7 @@
 					</VBox>
 					<!-- Settings and update button -->
 					<HBox id="button_dock" alignment="center">
-						<Button id="settings_button" text="Settings"/>
+						<Button id="refresh_button" text="Refresh"/>
 						<Button id="update_button" text="Update"/>
 					</HBox>
 					<!-- Launch button -->
@@ -115,22 +118,22 @@
 						<WCToggleButton fx:id="tbbtn_mods"  text="mods" onAction="#handleModsAction" styleClass="tbbtn" prefWidth="90" prefHeight="35" toggleGroup="$main_toggle_group"/>
 						<WCToggleButton fx:id="tbbtn_faq"  text="faq" onAction="#handleFaqAction" styleClass="tbbtn" prefWidth="90" prefHeight="35" toggleGroup="$main_toggle_group"/>
 						<WCToggleButton fx:id="tbbtn_log"  text="log" styleClass="tbbtn" prefWidth="90" prefHeight="35" toggleGroup="$main_toggle_group"/>
-						<WCToggleButton fx:id="tbbtn_refresh"  text="refresh" onAction="#handleRefreshAction" styleClass="tbbtn" prefWidth="90" prefHeight="35" toggleGroup="$main_toggle_group"/>
+						<WCToggleButton fx:id="tbbtn_settings"  text="settings" styleClass="tbbtn" prefWidth="90" prefHeight="35" toggleGroup="$main_toggle_group"/>
 					</ToolBar>
 					<!-- Progress bar indicating browser progress -->
 					<StackPane id="progress_bar_pane" alignment="center_right">
 						<ProgressBar fx:id="progressbar_main" prefWidth="${progressbar_main.parent.width}"/>
 					</StackPane>
 					<!-- Web browser, sometimes hidden -->
-					<StackPane fx:id="browser_pane" visible="${tbbtn_news.selected || tbbtn_map.selected || tbbtn_faq.selected}" managed="${tbbtn_news.selected || tbbtn_map.selected || tbbtn_faq.selected}">
+					<StackPane fx:id="browser_pane" visible="${tbbtn_news.current || tbbtn_map.current || tbbtn_faq.current}" managed="${tbbtn_news.current || tbbtn_map.current || tbbtn_faq.current}">
 						<StackPane fx:id="browser_container">
 							<WebView fx:id="webview_main"></WebView>
 							<fx:define>
-								<WCEngine fx:id="engine" webView="$webview_main" progressBar="$progressbar_main" container="$browser_container"/>
+								<WCEngine fx:id="engine" webView="$webview_main" progressBar="$progressbar_main" pane="$browser_pane"/>
 							</fx:define>
 						</StackPane>
 					</StackPane>
-					<StackPane fx:id="mods_pane" VBox.vgrow="ALWAYS" visible="${tbbtn_mods.selected}" managed="${tbbtn_mods.selected}">
+					<StackPane fx:id="mods_pane" VBox.vgrow="ALWAYS" visible="${tbbtn_mods.current}" managed="${tbbtn_mods.current}">
 						<ScrollPane fx:id="mods_container" VBox.vgrow="ALWAYS">
 							<ProgressArea text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor">
 								<image>
@@ -140,13 +143,15 @@
 						</ScrollPane>
 					</StackPane>
 					<!-- Launcher log (read-only console), sometimes hidden -->
-					<StackPane id="log_pane" VBox.vgrow="ALWAYS" visible="${tbbtn_log.selected}" managed="${tbbtn_log.selected}">
+					<StackPane id="log_pane" VBox.vgrow="ALWAYS" visible="${tbbtn_log.current}" managed="${tbbtn_log.current}">
 						<StackPane fx:id="log_container">
 							<TextArea fx:id="launcher_log" text="" contextMenu="$log_contextmenu" styleClass="launcher_log"  wrapText="true" editable="false">
 								<ContextMenu fx:id="log_contextmenu">
 									<items>
 										<MenuItem fx:id="log_menuitem_copy" text="Copy" onAction="#handleCopyAction" mnemonicParsing="false"/>
 										<MenuItem id="log_menuitem_selectall" text="Select All" onAction="#handleSelectAllAction" mnemonicParsing="false"/>
+										<SeparatorMenuItem mnemonicParsing="false" />
+										<MenuItem id="log_menuitem_hastebin" text="Send to Hastebin" onAction="#handleHastebinAction" mnemonicParsing="false"/>
 										<SeparatorMenuItem mnemonicParsing="false" />
 										<MenuItem fx:id="log_menuitem_newwindow" text="Open in New Window" onAction="#handleNewWindowAction" mnemonicParsing="false"/>
 										<MenuItem id="log_menuitem_docklog" text="Dock to Launcher" onAction="#handleDockLogAction" visible="${!(log_menuitem_newwindow.visible)}" mnemonicParsing="false"/>
@@ -157,6 +162,55 @@
 						<!-- Log placeholder, for when the log opened in a new window -->
 						<StackPane fx:id="logpl_container" visible="false" managed="false" alignment="center">
 							<Button id="logpl_button" text="Dock Log to Launcher" onAction="#handleDockLogAction"/>
+						</StackPane>
+					</StackPane>
+					<StackPane id="settings_pane" VBox.vgrow="ALWAYS" visible="${tbbtn_settings.current}" managed="${tbbtn_settings.current}">
+						<StackPane id="settings_container">
+							<VBox id="settings_body">
+								<fx:define>
+									<ToggleGroup fx:id="settings_main_toggle_group"/>
+								</fx:define>
+								<ToolBar id="settings_main_toolbar">
+									<WCToggleButton fx:id="tbbtn_javasettings" text="Java Settings" styleClass="tbbtn_settings" toggleGroup="$settings_main_toggle_group" />
+									<WCToggleButton fx:id="tbbtn_mcsettings" text="Minecraft Settings" styleClass="tbbtn_settings" toggleGroup="$settings_main_toggle_group" />
+									<WCToggleButton fx:id="tbbtn_launchersettings" text="Launcher Settings" styleClass="tbbtn_settings" toggleGroup="$settings_main_toggle_group" />
+								</ToolBar>
+								<GridPane id="javasettings_container" hgap="5" vgap="5" styleClass="settings_subcontainer" visible="${tbbtn_javasettings.current}" managed="${tbbtn_javasettings.current}">
+										<Text text="Minimum Memory" styleClass="settings_text" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+										<TextField id="sfield_minmemory" styleClass="settings_textfield" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+										<Region HBox.hgrow="ALWAYS" GridPane.rowIndex="0"/>
+										<ToggleSwitch GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+
+										<Text text="Maximum Memory" styleClass="settings_text" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+										<TextField id="sfield_maxmemory" styleClass="settings_textfield" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+										<Region HBox.hgrow="ALWAYS" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+										<ToggleSwitch GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+
+										<Text text="Java Executable" styleClass="settings_text" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+										<TextField id="sfield_javaexecutable" styleClass="settings_textfield" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+										<Region HBox.hgrow="ALWAYS" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+										<ToggleSwitch GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+
+										<Text text="JVM Options" styleClass="settings_text" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+										<TextField id="sfield_jvmoptions" styleClass="settings_textfield" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+										<Region HBox.hgrow="ALWAYS" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+										<ToggleSwitch GridPane.columnIndex="3" GridPane.rowIndex="3"/>
+								</GridPane>
+								<VBox id="mcsettings_container" styleClass="settings_subcontainer" visible="${tbbtn_mcsettings.current}" managed="${tbbtn_mcsettings.current}">
+								</VBox>
+								<VBox id="launchersettings_container" styleClass="settings_subcontainer" visible="${tbbtn_launchersettings.current}" managed="${tbbtn_launchersettings.current}">
+								</VBox>
+								<Region VBox.vgrow="ALWAYS" />
+								<StackPane id="settings_footer" alignment="bottom_center">
+									<HBox id="settings_buttontray" alignment="bottom_right">
+										<Text id="settings_status_txt" text="status: saved" textAlignment="center"/>
+										<Region HBox.hgrow="ALWAYS" />
+										<Button id="save_settings_button" text="Save" styleClass="settings_traybutton" />
+										<Button id="apply_settings_button" text="Apply" styleClass="settings_traybutton" />
+										<Button id="cancel_settings_button" text="Cancel" styleClass="settings_traybutton" />
+									</HBox>
+								</StackPane>
+							</VBox>
 						</StackPane>
 					</StackPane>
 				</VBox>
