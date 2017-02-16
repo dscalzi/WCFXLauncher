@@ -296,7 +296,7 @@
 	-fx-text-fill: black;
 	-fx-cursor: hand;
 	/* Getting rid of caspian's odd reduction */
-	-fx-background-insets: -1.4, 0, 1, 2 !important;
+	-fx-background-insets: 0, 0, 1, 2 !important;
 }
 .tbbtn:hover,
 .tbbtn:focused {
@@ -369,7 +369,8 @@
 	-fx-font: 13 'inconsolata';
 	-fx-fill: #cac3b6;
 }
-.settings_textfield {
+.settings_textfield,
+.settings_textfieldreduced {
 	-fx-font: 13 'inconsolata';
 	-fx-background-color: transparent;
 	-fx-text-fill: #cac3b6;
@@ -377,6 +378,10 @@
 	-fx-border-radius: 1px;
 	-fx-border-radius: 0em;
 	-fx-min-width: 400px;
+}
+#sfield_width,
+#sfield_height {
+	-fx-min-width: 189px !important;
 }
 .settings_textfield:focused {
     
@@ -406,6 +411,10 @@
 #settings_status_txt {
 	-fx-fill: #f2eada;
 	-fx-font: 12 'ringbearer';
+}
+
+.toggleswitch {
+	-wc-switched-on: true;
 }
 
 .toggleswitch .trigger {
