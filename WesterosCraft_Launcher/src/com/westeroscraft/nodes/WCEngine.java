@@ -70,6 +70,7 @@ public class WCEngine {
 	 */
 	public WCEngine(@NamedArg("webView")WebView view, @NamedArg("progressBar")ProgressBar progressBar, @NamedArg("pane")Pane container){
 		this.engine = view.getEngine();
+		engine.getHistory().setMaxSize(0);
 		this.view = view;
 		this.progressBar = progressBar;
 		this.container = container;

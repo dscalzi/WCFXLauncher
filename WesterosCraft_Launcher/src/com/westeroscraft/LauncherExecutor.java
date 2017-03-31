@@ -57,6 +57,7 @@ public class LauncherExecutor extends Application{
 		primaryStage.setWidth(925);
 		primaryStage.setMinWidth(575);
 		primaryStage.show();
+		System.gc();
 	}
 	
 	/**

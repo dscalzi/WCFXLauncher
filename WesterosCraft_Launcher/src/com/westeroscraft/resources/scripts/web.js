@@ -14,7 +14,7 @@
 $(document).ready(function() {
 	//If the site currently loaded is WesterosCraft's website.
 	//Allows flexibility for SSL and TLD changes.
-	if(document.location.href.toLowerCase().indexOf("://westeroscraft.") > -1){
+	if(document.location.href.toLowerCase().indexOf("://www.westeroscraft.") > -1){
 		const urlSplit = document.location.pathname.split("/");
 		
 		//Scroll positions for pages with the pathname given.
@@ -57,7 +57,7 @@ $(document).ready(function() {
 	
 	//Force vertical scrollbar to be always visible.
 	if(document.body.scrollHeight < document.body.clientHeight){
-		$('html').css('overflow-y', 'scroll')
+		$('html').css('overflow-y', 'scroll');
 	}
 	
 });
