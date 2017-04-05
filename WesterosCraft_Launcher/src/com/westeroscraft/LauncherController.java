@@ -74,6 +74,36 @@ public class LauncherController implements Initializable{
 	}
 	
 	@FXML
+	private void handleFacebookButton(ActionEvent e){
+		try {
+			Desktop.getDesktop().browse(URI.create("https://www.facebook.com/WesterosCraft/"));
+		} catch (IOException e1) {
+			LoggerUtil.getLogger("Launcher").severe("Unable to open Facebook link.");
+			e1.printStackTrace();
+		}
+	}
+	
+	@FXML
+	private void handleRedditButton(ActionEvent e){
+		try {
+			Desktop.getDesktop().browse(URI.create("https://www.reddit.com/r/WesterosCraft/"));
+		} catch (IOException e1) {
+			LoggerUtil.getLogger("Launcher").severe("Unable to open Reddit link.");
+			e1.printStackTrace();
+		}
+	}
+	
+	@FXML
+	private void handleTwitterButton(ActionEvent e){
+		try {
+			Desktop.getDesktop().browse(URI.create("https://twitter.com/westeroscraft"));
+		} catch (IOException e1) {
+			LoggerUtil.getLogger("Launcher").severe("Unable to open Twitter link.");
+			e1.printStackTrace();
+		}
+	}
+	
+	@FXML
 	private void handleNewsAction(ActionEvent e){
 		engine.loadPage("http://westeroscraft.com/servernews");
 	}

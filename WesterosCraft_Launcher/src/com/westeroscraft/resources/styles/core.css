@@ -113,6 +113,27 @@
 #header_trim_pane {
 	-fx-background-color: #a02d2a;
 }
+#social_button_tray {
+	-fx-spacing: 5px;
+}
+.social_button {
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: center;
+	-fx-background-size: 25px 25px;
+	-fx-pref-width: 25px;
+	-fx-pref-height: 25px;
+	-fx-background-insets: 0 !important;
+	-fx-cursor: hand;
+}
+#twitter_button {
+	-fx-background-image: url('../images/twitter.png');
+}
+#facebook_button {
+	-fx-background-image: url('../images/facebook.png');
+}
+#reddit_button {
+	-fx-background-image: url('../images/reddit.png');
+}
 
 /*******************************************************************************
  *                                                                             *
@@ -499,4 +520,28 @@
 #avatar_container {
 	-fx-border-color: black;
 	-fx-border-width: 3;
+}
+#mojang_status_pane {
+	-fx-padding: 2 2 2 5;
+}
+#mojang_status_container {
+	-fx-spacing: 4;
+}
+.mojang_status_text {
+	-fx-font: 12 'ringbearer';
+}
+.mojang_status_pendingcircle,
+.mojang_status_successcircle,
+.mojang_status_errorcircle {
+	-fx-border-width: 1;
+	-fx-border-color: gray;
+}
+.mojang_status_pendingcircle {
+	-fx-fill: lightgray;
+}
+.mojang_status_successcircle {
+	-fx-fill: green;
+}
+.mojang_status_errorcircle {
+	-fx-fill: red;
 }

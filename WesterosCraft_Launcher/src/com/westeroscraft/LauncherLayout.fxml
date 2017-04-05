@@ -29,6 +29,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.web.WebView?>
@@ -55,7 +56,12 @@
 				<!-- The main header text -->
 				<HBox id="header_text_container" alignment="center">
 					<Text id="header_text" text="WesterosCraft"/>
-				</HBox>	
+				</HBox>
+				<HBox id="social_button_tray" alignment="bottom_right">
+					<Button id="facebook_button" styleClass="social_button" onAction="#handleFacebookButton"/>
+					<Button id="reddit_button" styleClass="social_button" onAction="#handleRedditButton"/>
+					<Button id="twitter_button" styleClass="social_button" onAction="#handleTwitterButton"/>
+				</HBox>
 			</StackPane>
 			<!-- Red border between the launcher's header and body -->
 			<StackPane id="header_trim_pane">
@@ -105,6 +111,16 @@
 					<!-- Launch button -->
 					<StackPane id="launch_button_container">
 						<Button id="launch_button" text="LAUNCH"/>
+					</StackPane>
+					<!-- Stack pane to force the Mojang status to the bottom -->
+					<StackPane id="left_container_spacer" VBox.vgrow="ALWAYS" />
+					<!-- Status of Mojang Services -->
+					<StackPane id="mojang_status_pane" alignment="bottom_left">
+						<HBox id="mojang_status_container" alignment="center_left">
+							<Text id="mojang_sessions_text" styleClass="mojang_status_text" text="sessions" />
+							<Circle id="mojang_sessions_circle" radius="6" styleClass="mojang_status_pendingcircle" />
+							<Text id="mojang_sessions_text" styleClass="mojang_status_text" text="auth" />
+						</HBox>
 					</StackPane>
 				</VBox>
 				<!-- Right portion of the launcher -->
