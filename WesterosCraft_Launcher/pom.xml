@@ -48,12 +48,12 @@
       </plugin>
     </plugins>
   </build>
-  <!-- <repositories>
+  <repositories>
   	<repository>
   		<id>mikeprimm</id>
   		<url>http://repo.mikeprimm.com/</url>
   	</repository>
-  </repositories> -->
+  </repositories>
   <dependencies>
 	<dependency>
 	    <groupId>com.google.code.gson</groupId>
@@ -70,15 +70,15 @@
 	    <artifactId>json-simple</artifactId>
 	    <version>1.1.1</version>
 	</dependency>
-  	<!-- <dependency>
+  	<dependency>
   		<groupId>com.mojang</groupId>
   		<artifactId>authlib</artifactId>
   		<version>1.5.13</version>
-  	</dependency> -->
-  	<dependency>
+  	</dependency>
+  	<!-- <dependency>
 		<groupId>com.westeroscraft</groupId>
 		<artifactId>MojangAuth</artifactId>
 		<version>1.0</version>
-	</dependency>
+	</dependency> -->
   </dependencies>
 </project>
