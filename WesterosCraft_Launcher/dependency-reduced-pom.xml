@@ -48,5 +48,11 @@
       </plugin>
     </plugins>
   </build>
+  <repositories>
+    <repository>
+      <id>mikeprimm</id>
+      <url>http://repo.mikeprimm.com/</url>
+    </repository>
+  </repositories>
 </project>
 
