@@ -60,7 +60,7 @@ public class BorderlessScene extends Scene {
 		super(new Pane());
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("Borderless.fxml"));
+			loader.setLocation(getClass().getResource("/fxml/Borderless.fxml"));
 			this.root = ((AnchorPane) loader.load());
 
 			setRoot(this.root);

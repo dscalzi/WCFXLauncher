@@ -29,9 +29,9 @@ public class LauncherExecutor extends Application {
 		FXMLLoader loader = new FXMLLoader();
 		
 		VBox root;
-		
-		try(InputStream fxmlStream = getClass().getResourceAsStream("LauncherLayout.fxml")){
-			root = (VBox) loader.load(fxmlStream);
+
+		try(InputStream fxmlStream = getClass().getResourceAsStream("/fxml/LauncherLayout.fxml")){
+			root = loader.load(fxmlStream);
 		}
 		
 		LoggerUtil.getLogger("Launcher").info("Loading..");
@@ -42,12 +42,19 @@ public class LauncherExecutor extends Application {
 			LoggerUtil.getLogger("Launcher").log(Level.SEVERE, t.getMessage(), t);
 			t.printStackTrace();
 		}
-		
-		BorderlessScene scene = new BorderlessScene(primaryStage, root);
-		scene.getStylesheets().add(getClass().getResource("resources/styles/core.css").toExternalForm());
+
+		BorderlessScene scene;
+		try {
+			scene = new BorderlessScene(primaryStage, root);
+		} catch(Throwable t) {
+			t.printStackTrace();
+			throw new RuntimeException(t);
+		}
+
+		scene.getStylesheets().add(getClass().getResource("/styles/core.css").toExternalForm());
 		scene.setMoveControl(root.lookup("#windowFrameAdapter"));
 		
-		((WebView)root.lookup("#webview_main")).getEngine().load("http://westeroscraft.com/servernews");
+		((WebView)root.lookup("#webview_main")).getEngine().load("http://westeroscraft.com/launcher");
 		
 		primaryStage.getIcons().add(((ImageView)root.lookup("#seal_imageview")).getImage());
 		

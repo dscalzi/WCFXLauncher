@@ -105,7 +105,7 @@ public class LauncherController implements Initializable{
 	
 	@FXML
 	private void handleNewsAction(ActionEvent e){
-		engine.loadPage("http://westeroscraft.com/servernews");
+		engine.loadPage("http://westeroscraft.com/launcher");
 	}
 	@FXML
 	private void handleMapAction(ActionEvent e){
@@ -178,17 +178,17 @@ public class LauncherController implements Initializable{
 			wr.close();
 			
 			try(InputStream in = con.getInputStream();
-				BufferedReader reader = new BufferedReader(new InputStreamReader(in));){
+				BufferedReader reader = new BufferedReader(new InputStreamReader(in))){
 				
 				int responseCode = con.getResponseCode();
 				
-				String response = "";
-		        String line = null;
+				StringBuilder response = new StringBuilder();
+		        String line;
 		        while((line = reader.readLine()) != null) {
-		        	response = response + line;
+		        	response.append(line);
 		        }
 		        JsonParser parser = new JsonParser();
-		        String code = parser.parse(response).getAsJsonObject().get("key").getAsString();
+		        String code = parser.parse(response.toString()).getAsJsonObject().get("key").getAsString();
 		        String hburl = "https://hastebin.com/" + code;
 		        LoggerUtil.getLogger("Launcher").info("Hastebin result:\n" + 
 		        		"Response code: " + responseCode + ".\n" +
@@ -215,7 +215,7 @@ public class LauncherController implements Initializable{
 		w.getIcons().add(seal_imageview.getImage());
 		popup_launcher = new StackPane();
 		Scene fullLog = new Scene(popup_launcher);
-		fullLog.getStylesheets().add(getClass().getResource("resources/styles/core.css").toExternalForm());
+		fullLog.getStylesheets().add(getClass().getResource("/styles/core.css").toExternalForm());
 		w.setScene(fullLog);
 		w.setTitle("WesterosCraft Launcher Log");
 		w.setOnCloseRequest(v -> {

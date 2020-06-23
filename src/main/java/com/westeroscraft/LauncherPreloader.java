@@ -15,7 +15,7 @@ public class LauncherPreloader extends Preloader{
 	private Stage preloaderStage;
 	
 	@Override
-	public void start(Stage primaryStage) throws Exception {
+	public void start(Stage primaryStage) {
 		this.preloaderStage = primaryStage;
 		
 		VBox loading = new VBox(20);

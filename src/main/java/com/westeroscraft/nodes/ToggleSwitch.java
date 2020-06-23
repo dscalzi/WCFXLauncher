@@ -3,7 +3,6 @@ package com.westeroscraft.nodes;
 import java.util.Collections;
 import java.util.List;
 
-import com.sun.javafx.css.converters.PaintConverter;
 
 import java.util.ArrayList;
 
@@ -19,6 +18,7 @@ import javafx.css.Styleable;
 import javafx.css.StyleableBooleanProperty;
 import javafx.css.StyleableObjectProperty;
 import javafx.css.StyleableProperty;
+import javafx.css.converter.PaintConverter;
 import javafx.geometry.Pos;
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;

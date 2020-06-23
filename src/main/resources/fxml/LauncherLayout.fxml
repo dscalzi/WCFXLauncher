@@ -38,9 +38,9 @@
 <VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.westeroscraft.LauncherController" id="shell">
 	<!-- Custom Window Frame Adapter since we are using an undecorated stage -->
 	<HBox fx:id="windowFrameAdapter" prefWidth="900" minHeight="25" alignment="top_right">
-		<DiminishButton id="diminishbtn" width="40" height="25"></DiminishButton>
-		<RestoreButton width="40" height="25"></RestoreButton>
-		<CloseButton width="40" height="25"></CloseButton>
+		<DiminishButton id="diminishbtn" width="40" height="25"/>
+		<RestoreButton width="40" height="25"/>
+		<CloseButton width="40" height="25"/>
 	</HBox>
 	<!-- Entire scene excluding the window frame adapter -->
 	<VBox id="inner_shell" VBox.vgrow="ALWAYS">
@@ -50,7 +50,7 @@
 				<!-- Image seal -->
 				<Pane id="seal_pane">
 					<ImageView fx:id="seal_imageview" preserveRatio="true" fitHeight="75">
-						<Image url="@/com/westeroscraft/resources/images/WesterosCraft.png"/>
+						<Image url="@/WesterosCraft.png"/>
 					</ImageView>
 				</Pane>
 				<!-- The main header text -->
@@ -154,7 +154,7 @@
 						<ScrollPane fx:id="mods_container" VBox.vgrow="ALWAYS">
 							<ProgressArea text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor">
 								<image>
-									<Image url="@/com/westeroscraft/resources/images/WesterosCraft.png"/>
+									<Image url="@/WesterosCraft.png" />
 								</image>
 							</ProgressArea>
 						</ScrollPane>

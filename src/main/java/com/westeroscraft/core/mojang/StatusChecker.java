@@ -1,13 +1,4 @@
 package com.westeroscraft.core.mojang;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
  
 public enum StatusChecker {
     ACCOUNTS("Accounts Service", "account.mojang.com"),
@@ -28,8 +19,8 @@ public enum StatusChecker {
     */
  
     private String name, serviceURL;
-    private JSONParser jsonParser = new JSONParser();
- 
+//    private JSONParser jsonParser = new JSONParser();
+
     StatusChecker(String name, String serviceURL) {
         this.name = name;
         this.serviceURL = serviceURL;
@@ -39,43 +30,43 @@ public enum StatusChecker {
         return name;
     }
  
-    /**
-    * Check the current Mojang service for it's status, errors are ignored.
-    *
-    * @return Status of the service.
-    */
-    public Status getStatus() {
-        return getStatus(true);
-    }
- 
-    /**
-    * Check the current Mojang service for it's status.
-    *
-    * @param suppressErrors - Don't print errors in console.
-    * @return Status of the service.
-    */
-    public Status getStatus(boolean suppressErrors) {
-        try {
-            URL url = new URL("http://status.mojang.com/check?service=" + serviceURL);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
- 
-            Object object = jsonParser.parse(bufferedReader);
-            JSONObject jsonObject = (JSONObject) object;
- 
-            String status = (String) jsonObject.get(serviceURL);
- 
-            return Status.get(status);
- 
-        } catch (IOException | ParseException exception) {
- 
-            if (!suppressErrors) {
-                exception.printStackTrace();
-            }
- 
-            return Status.UNKNOWN;
-        }
-    }
- 
+//    /**
+//    * Check the current Mojang service for it's status, errors are ignored.
+//    *
+//    * @return Status of the service.
+//    */
+//    public Status getStatus() {
+//        return getStatus(true);
+//    }
+//
+//    /**
+//    * Check the current Mojang service for it's status.
+//    *
+//    * @param suppressErrors - Don't print errors in console.
+//    * @return Status of the service.
+//    */
+//    public Status getStatus(boolean suppressErrors) {
+//        try {
+//            URL url = new URL("http://status.mojang.com/check?service=" + serviceURL);
+//            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
+//
+//            Object object = jsonParser.parse(bufferedReader);
+//            JSONObject jsonObject = (JSONObject) object;
+//
+//            String status = (String) jsonObject.get(serviceURL);
+//
+//            return Status.get(status);
+//
+//        } catch (IOException | ParseException exception) {
+//
+//            if (!suppressErrors) {
+//                exception.printStackTrace();
+//            }
+//
+//            return Status.UNKNOWN;
+//        }
+//    }
+
     public enum Status {
         ONLINE("Online"),
         UNSTABLE("Unstable"),

@@ -29,16 +29,16 @@ import javafx.scene.input.MouseEvent;
  */
 public class WCToggleButton extends ToggleButton implements EventHandler<Event>{
 	
-	private static PseudoClass CURRENT_PSEUDO_CLASS = PseudoClass.getPseudoClass("current");
-	private static Map<ToggleGroup, WCToggleButton> focused;
+	private static final PseudoClass CURRENT_PSEUDO_CLASS = PseudoClass.getPseudoClass("current");
+	private static final Map<ToggleGroup, WCToggleButton> focused;
 	
 	static {
-		focused = new HashMap<ToggleGroup, WCToggleButton>();
+		focused = new HashMap<>();
 	}
 	
 	public enum WCToggleButtonState {
 		FOCUSED(),
-		IDLE();
+		IDLE()
 	}
 	
 	private WCToggleButtonState state;
@@ -135,7 +135,7 @@ public class WCToggleButton extends ToggleButton implements EventHandler<Event>{
 		return current;
 	}
 
-	private BooleanProperty current = new BooleanPropertyBase(false) {
+	private final BooleanProperty current = new BooleanPropertyBase(false) {
 
 		@Override 
 		protected void invalidated() {
